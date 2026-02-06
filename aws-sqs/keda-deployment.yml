@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqs-consumer
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: sqs-consumer
+  template:
+    metadata:
+      labels:
+        app: sqs-consumer
+    spec:
+      containers:
+      - name: app
+        image: sqs-consumer:1.0
+        env:
+        - name: QUEUE_URL
+          value: "https://sqs.us-west-2.amazonaws.com/976374902508/keda-sqs-queue"
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_REGION
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret
+              key: AWS_REGION

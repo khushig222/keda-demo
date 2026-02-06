@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sqs-scale
+spec:
+  scaleTargetRef:
+    name: sqs-consumer
+  minReplicaCount: 0
+  maxReplicaCount: 5
+  triggers:
+  - type: aws-sqs-queue
+    metadata:
+      queueURL: "https://sqs.us-west-2.amazonaws.com/976374902508/keda-sqs-queue"
+      queueLength: "5"
+      awsRegion: "us-west-2"
+    authenticationRef:
+      name: aws-auth
