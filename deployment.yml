@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asb-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: asb-consumer
+  template:
+    metadata:
+      labels:
+        app: asb-consumer
+    spec:
+      containers:
+      - name: consumer
+        image: docker.io/library/asb-consumer:v2
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: SERVICEBUS_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: asb-secret
+              key: connection
+        - name: QUEUE_NAME
+          value: keda-abs
