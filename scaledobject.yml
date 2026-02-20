@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: asb-scaledobject
+spec:
+  scaleTargetRef:
+    name: asb-consumer
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  triggers:
+  - type: azure-servicebus
+    metadata:
+      queueName: keda-asb
+      namespace: keda-asb-namespace
+      messageCount: "5"
+    authenticationRef:
+      name: asb-auth
