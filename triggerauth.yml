@@ -1,0 +1,9 @@
+apiVersion: keda.sh/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: asb-auth
+spec:
+  secretTargetRef:
+  - parameter: connection
+    name: asb-secret
+    key: connection
